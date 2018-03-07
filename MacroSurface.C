@@ -164,6 +164,37 @@ void MacroSurface() {
 
    std::cout << "             " << std::endl;
 
+   // Analyse post-ANOVA
+   // Calcul du LSD (Least Significant Difference) de Ficher : Les moyennes Mui et Muj sont déclarées différentes à 95% CL ssi la valeur
+   // absolue de leur diférence est supérieure au LSD. Lecture du fractile de la loi de Student dans http://www.agro-montpellier.fr/cnam-lr/statnet/tables.htm#student
+   // Pour nu = I*(n-1) = 24 ddl et un seuil alpha = 0.05 (5%) on a t(nu,alpha/2) = 2.0639 (1-alpha/2 = 0.975) idem pour un seuil plus restrictif à 1% et un moins restrictif à 10%
+   std::cout << " Analyse post-ANOVA " << std::endl;
+   Double_t fractile5 = 2.0639;
+   Double_t fractile1 = 2.797;
+   Double_t fractile10 = 1.7109;
+   Double_t LSD5 = fractile5*sqrt( 2*( SCTrait + SCResidu )/( I*n*(n-1) ) );
+   Double_t LSD1 = fractile1*sqrt( 2*( SCTrait + SCResidu )/( I*n*(n-1) ) );
+   Double_t LSD10 = fractile10*sqrt( 2*( SCTrait + SCResidu )/( I*n*(n-1) ) );
+
+   cout << "LSD10 = " << LSD10 << endl;
+   cout << "LSD5 = " << LSD5 << endl;
+   cout << "LSD1 = " << LSD1 << endl;
+
+   // Calcul des différences entre moyennes
+   Double_t Diff = 0.;
+   for (int i = 0; i<I; i++) {
+     for (int j = 0; j<I; j++) {
+       if (i==j) {break;}
+       else {
+         Diff = abs(MuTest[i] - MuTest[j]);
+         cout << " Diff Mu" << i << " - Mu" << j << " = " << Diff <<  endl;
+         if (LSD10 - Diff < 0) {cout << " DING !!! We have a Candidate :o " << endl;}
+         if (LSD5 - Diff < 0) {cout << " DING DING DING !!! We have a winner :) " << endl;}
+         if (LSD1 - Diff < 0) {cout << " DING DING DING DING DING DING !!! We have a SUPER winner :D " << endl;}
+       }
+     }
+   }
+
    TGraph *grS1 = new TGraph(I,Test,S1);
    grS1->SetLineColor(2);
    grS1->SetLineWidth(2);
