@@ -32,6 +32,7 @@ using std::ifstream;
 // http://www.cons-dev.org/elearning/stat/parametrique/5-3/5-3.html
 // https://fr.wikipedia.org/wiki/Analyse_de_la_variance
 // https://fr.wikipedia.org/wiki/Loi_de_Fisher
+// http://www.agro-montpellier.fr/cnam-lr/statnet/tables.htm#fisher0.05
 
 void MacroLFS() {
 
@@ -146,11 +147,11 @@ void MacroLFS() {
    std::cout << "-------------" << std::endl;
    printf("FInter = %2.2f and FTrait = %2.2f \n", FInter, FTrait);
 
-   // P-value seuil à lire dans une table de Fisher-Snedecor, 1-a = 95% CL : https://fr.wikipedia.org/wiki/Loi_de_Fisher
+   // P-value seuil à lire dans une table de Fisher-Snedecor, 1-a = 95% CL : http://www.agro-montpellier.fr/cnam-lr/statnet/tables.htm#fisher0.05
    // Ici, on extrait SeuilPValueInter = P(F<1.12) (Pour une loi de Fisher tq ~F(DDLInter,DDLResidu)) mais surtout PValueTrait = P(F<1.55) ~F(DDLTrait,DDLResidu) :
    // Précision : Ici, les valeurs sont minimisées car le tableau donne une valeur pour F(3,20) et F(6,20) mais pas v2 = 18. Extrapolation nécessaire ?
-   Double_t SeuilPValueInter = 3.10;
-   Double_t SeuilPValueTrait = 2.60;
+   Double_t SeuilPValueInter = 3.16;
+   Double_t SeuilPValueTrait = 2.66;
 
    // Tableau récapitulatif de l'étude ANOVA
    std::cout << "             " << std::endl;
